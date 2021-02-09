@@ -18,6 +18,8 @@ defmodule QuadquizaminosWeb.Router do
     pipe_through :browser
 
     live "/game", GameLive
+    live "/", PageLive, :index
+    live "/tetris", TetrisLive
     get "/", PageController, :index
   end
 
