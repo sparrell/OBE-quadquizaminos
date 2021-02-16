@@ -24,7 +24,9 @@ defmodule QuadquizaminosWeb.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    auth.uid |> authorized_user?() |> find_or_create(auth, conn)
+    auth.uid
+    |> authorized_user?()
+    |> find_or_create(auth, conn)
   end
 
   defp authorized_user?(user_id), do: user_id in Application.get_env(:quadquizaminos, :github_ids)
@@ -34,7 +36,7 @@ defmodule QuadquizaminosWeb.AuthController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Successfully authenticated.")
-        |> put_session(:current_user, user.user_id)
+        |> put_session(:user_id, user.user_id)
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
