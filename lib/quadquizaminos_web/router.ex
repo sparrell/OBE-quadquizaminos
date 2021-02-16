@@ -14,13 +14,17 @@ defmodule QuadquizaminosWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authorize do
+    plug QuadquizaminosWeb.Authorize
+  end
+
   scope "/", QuadquizaminosWeb do
     pipe_through :browser
 
-    live "/game", GameLive
-    live "/", PageLive, :index
-    live "/tetris", TetrisLive
     get "/", PageController, :index
+    pipe_through :authorize
+
+    live "/tetris", TetrisLive
   end
 
   scope "/auth", QuadquizaminosWeb do
